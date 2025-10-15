@@ -40,7 +40,6 @@ body {
   background-color: #1a1a2e; 
   color: var(--text-color);
   font-family: var(--font-family);
-  display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
