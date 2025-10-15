@@ -2,7 +2,7 @@ import time
 import sys
 import os
 import pygame
-
+import subprocess
 
 print("Compiler Started")
 
@@ -10,6 +10,38 @@ def configure():
     print("Preparing Audio channels via PYGAME")
     pygame.mixer.init(frequency=44100, size=-16, channels=2) 
     print("Audio channels ready")
+
+def install_module():
+    preinstall = input("")
+    if "install:" in preinstall:
+        module = preinstall.replace("install: ", "")
+        try:
+            subprocess.check_call([sys.executable, "-m", "pip", "install", module])
+            print(f"Module {module} installed successfully")
+            random = input("press enter to import the module or type anything for skipping")
+            if random == "":
+                try:
+                    __import__(module)
+                    print(f"module {module} imported successfully")
+                    random = input("")
+                except ImportError:
+                    print(f"Import Error: module {module} could not be imported")
+            else:
+                print("skipping import")
+        except subprocess.CalledProcessError:
+            print(f"Installation Error: module {module} could not be installed ")
+    else:
+        print("Syntax Error: The command you provided doesn't exist please check the documentation")
+    print("successfuly installed", module)
+
+def variable_status():
+    prevariable = input("")
+    if "status:" in prevariable:
+        variable = prevariable.replace("status: ", "")
+        try:
+            print("Variable", variable, )
+        except Exception as e:
+            print(f"error checking variable {variable}: {e}")
 
 def module_insert():
     premodule = input("")
@@ -85,8 +117,9 @@ def write():
         print("Syntax Error: The command you proved doesn't exist please check the documentation for commands")
     
 def main():
-    clear_terminal()
     start = input("")
+    if "status/" in start:
+        variable_status()
     if "clear/" in start:
         clear_terminal()
     if "write/" in start:
@@ -99,9 +132,14 @@ def main():
         exit()
     if "import/" in start:
         module_insert()
+    if "create/" in start:
+        variable()
+    if "wiki/" in start:
+        wiki()
+    if "install/" in start:
+        install_module()
     else:
-        print("Processing Error: The command you provided doesn't exist please check the documentation")
-        print('\a')
+        print("An error occured (if you run clear/ it's normal i dunno why)")
 
 
 clear_terminal()
