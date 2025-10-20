@@ -64,6 +64,18 @@ def wiki():
 def exit():
     sys.exit()
 
+def ping():
+    preping = input("")
+    if "ping:" in preping:
+        ping = preping.replace("ping: ", "")
+        response = os.system("ping -c 1 " + ping)
+        if response == 0:
+            print(f"{ping} is up")
+        else:
+            print(f"{ping} is down")
+    else:
+        print("Syntax Error: The command you provided doesn't exist please check the documentation")
+
 def variable():
     prevariable = input("")
     if "create:" in prevariable:
@@ -138,6 +150,8 @@ def main():
         wiki()
     if "install/" in start:
         install_module()
+    if "Ping/" in start:
+        ping()
     else:
         print("An error occured (if you run clear/ it's normal i dunno why)")
 
